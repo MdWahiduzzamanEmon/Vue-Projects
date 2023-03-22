@@ -1,14 +1,12 @@
 <template>
   <section class="container mt-5">
+    <!-- //back button -->
+    <div class="d-flex justify-content-end my-2">
+      <button type="button" class="btn btn-outline-secondary" @click="back">Back</button>
+    </div>
     <div class="row g-4" v-if="!isloading">
       <div class="col-md-3" v-for="blog in blogData" :key="blog.id">
         <CardComponent :blog="blog" />
-      </div>
-      <!-- //Explore more button -->
-      <div class="d-flex justify-content-center my-5">
-        <button type="button" class="btn btn-outline-secondary" @click="allData">
-          Explore More
-        </button>
       </div>
     </div>
     <div v-else class="d-flex justify-content-center">
@@ -22,22 +20,22 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import getBlogData from '../../components/ApiCall/ApiCall.js'
-import CardComponent from '../../views/CardComponent/CardComponent.vue'
+import getBlogData from '../../components/ApiCall/ApiCall'
+import CardComponent from '../CardComponent/CardComponent.vue'
+
 const blogData = ref([])
 const isloading = ref(true)
 const router = useRouter()
 const getData = async () => {
   const data = await getBlogData()
   //   console.log(data)
-  blogData.value = data.splice(0, 8).reverse()
+  blogData.value = data.reverse()
   isloading.value = false
 }
 
-const allData = () => {
-  router.push('/allData')
+const back = () => {
+  router.back()
 }
-
 onMounted(() => {
   getData()
 })
