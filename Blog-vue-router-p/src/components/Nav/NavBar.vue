@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Blog</a>
+      <RouterLink class="navbar-brand" to="/">Blog</RouterLink>
       <button
         class="navbar-toggler"
         type="button"

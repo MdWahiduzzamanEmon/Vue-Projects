@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import(/* webpackChunkName: "about" */ '../views/About/About-blog.vue')
     },
     {
+      path: '/details/:id',
+      name: 'blog',
+      component: () => import(/* webpackChunkName: "blog" */ '../views/Details-Blog/Details-Blog.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import(/* webpackChunkName: "not-found" */ '../views/Not-Found/Not-Found.vue')
