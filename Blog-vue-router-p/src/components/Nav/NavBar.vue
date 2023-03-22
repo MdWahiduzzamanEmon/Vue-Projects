@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink } from 'vue-router'
 </script>
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -19,9 +19,8 @@ import { RouterLink } from "vue-router";
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <RouterLink class="nav-link active" aria-current="page" to="/"
-              >Home</RouterLink
-            >
+            <!-- //use vue router active link  -->
+            <RouterLink class="nav-link" to="/" exact>Home</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/about">About</RouterLink>
@@ -32,4 +31,10 @@ import { RouterLink } from "vue-router";
   </nav>
 </template>
 
-<style scoped></style>
+<style scoped>
+.nav-link {
+  /* color: #000; */
+  font-weight: 600;
+  font-size: 1rem;
+}
+</style>

@@ -1,9 +1,23 @@
 <template>
   <section class="container mt-5">
     <!-- //back button -->
-    <div class="d-flex justify-content-end my-2">
+    <section class="d-flex justify-content-between my-2 align-items-center mb-4">
+      <h4>Total Blogs: {{ blogData.length }}</h4>
+      <!-- //search  -->
+      <div class="input-group w-50">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          aria-label="Search"
+          aria-describedby="button-addon2"
+          v-model="search"
+        />
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+      </div>
       <button type="button" class="btn btn-outline-secondary" @click="back">Back</button>
-    </div>
+    </section>
+    <!-- //card component -->
     <div class="row g-4" v-if="!isloading">
       <div class="col-md-3" v-for="blog in blogData" :key="blog.id">
         <CardComponent :blog="blog" />
@@ -18,12 +32,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted ,watch} from 'vue'
 import { useRouter } from 'vue-router'
 import getBlogData from '../../components/ApiCall/ApiCall'
 import CardComponent from '../CardComponent/CardComponent.vue'
 
 const blogData = ref([])
+const search = ref('')
 const isloading = ref(true)
 const router = useRouter()
 const getData = async () => {
@@ -36,6 +51,17 @@ const getData = async () => {
 const back = () => {
   router.back()
 }
+
+watch(search, (newValue) => {
+  if (newValue === '') {
+    getData()
+  } else {
+    blogData.value = blogData.value.filter((blog) => {
+      return blog.title.toLowerCase().includes(newValue.toLowerCase())
+    })
+  }
+})
+
 onMounted(() => {
   getData()
 })
