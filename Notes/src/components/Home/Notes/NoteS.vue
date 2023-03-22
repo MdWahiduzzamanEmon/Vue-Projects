@@ -118,6 +118,11 @@ const addNote = () => {
     errorMessage.value = ''
   }
 
+  if (data.value.title.length < 10) {
+    return (errorMessage.value = 'Title must be at least 10 characters')
+  } else {
+    errorMessage.value = ''
+  }
   notes.value.push({
     id: Math.floor(Math.random() * 100000000),
     title: data.value.title,
