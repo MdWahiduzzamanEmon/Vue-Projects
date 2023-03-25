@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted,watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import getBlogData from '../../components/ApiCall/ApiCall.js'
 import CardComponent from '../../views/CardComponent/CardComponent.vue'
@@ -42,6 +42,7 @@ const blogData = ref([])
 const isloading = ref(true)
 const router = useRouter()
 const search = ref('')
+
 const getData = async () => {
   const data = await getBlogData()
   //   console.log(data)
