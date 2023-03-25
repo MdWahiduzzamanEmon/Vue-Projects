@@ -1,15 +1,13 @@
 <script setup>
-import {  RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import Nav from './components/Nav/Nav-bar.vue'
 </script>
 
 <template>
-  <header>
-   
+  <header class="mb-4">
+    <Nav />
   </header>
-
-  <RouterView />
+  <main class="container">
+    <RouterView />
+  </main>
 </template>
-
-<style scoped>
-
-</style>

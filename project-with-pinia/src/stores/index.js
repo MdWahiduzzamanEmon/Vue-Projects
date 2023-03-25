@@ -1,3 +1,3 @@
-import { useCounterStore } from "./counter";
+import { useCounterStore } from './counter'
 
-export { useCounterStore}
+export { useCounterStore }
