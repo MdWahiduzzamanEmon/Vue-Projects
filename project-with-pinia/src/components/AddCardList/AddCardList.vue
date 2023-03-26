@@ -17,7 +17,7 @@
 
         <div>
           <p class="mb-0">{{ product.title.slice(0, 20) + '...' + ' ' }}</p>
-          <p class="mb-0">Price: {{ Number(product.price * product.quantity)?.toFixed(2) }}</p>
+          <p class="mb-0">Price: ${{ Number(product.price * product.quantity)?.toFixed(2) }}</p>
         </div>
       </div>
       <div class="d-flex align-items-center gap-2">

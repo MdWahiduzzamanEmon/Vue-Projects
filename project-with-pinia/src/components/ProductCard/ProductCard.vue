@@ -3,9 +3,10 @@
     <div class="card h-100 p-2">
       <img
         :src="image"
-        class="card-img-top img-fluid"
+        class="card-img-top img-fluid card_cursor"
         :alt="title"
         style="height: 200px; object-fit: contain"
+        @click="showProductDetails(product)"
       />
       <div class="card-body">
         <h5 class="card-title" :title="title">
@@ -40,7 +41,20 @@
               />
             </svg>
           </p>
-          <button class="btn btn-primary btn-sm" @click="addProduct(product)">Add to Cart</button>
+          <button class="btn btn-outline-primary btn-sm" @click="addProduct(product)">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-cart-plus-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -49,6 +63,7 @@
 
 <script setup>
 import { defineProps, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
 import useAddProductStore from '@/stores/AddProductStore/AddProductStore.js'
 
 const addProductStore = useAddProductStore()
@@ -62,6 +77,12 @@ const props = defineProps({
 const { addProduct } = addProductStore
 
 const { title, image, description, category, price, rating } = toRefs(props.product)
+const router= useRouter()
+
+const showProductDetails = (product) => {
+  router.push(`/productDetails/${product.id}`)
+}
+
 </script>
 
 <style scoped>
@@ -78,6 +99,7 @@ const { title, image, description, category, price, rating } = toRefs(props.prod
 
 .card:hover .card-img-top {
   transform: scale(1.1);
+  background: transparent;
 }
 
 .card-title {
@@ -86,5 +108,9 @@ const { title, image, description, category, price, rating } = toRefs(props.prod
 
 p {
   color: #561414;
+}
+.card_cursor {
+  cursor: pointer;
+
 }
 </style>

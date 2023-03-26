@@ -37,7 +37,7 @@
 import { useProductStore } from '../../../stores/ProductStore/ProductStore'
 import ProductCard from '@/components/ProductCard/ProductCard.vue'
 import { storeToRefs } from 'pinia'
-import { onMounted, onUnmounted, ref, watchEffect, watch } from 'vue'
+import { onMounted, ref, watchEffect, watch } from 'vue'
 
 const productStore = useProductStore()
 const { products, loading, error } = storeToRefs(productStore)
@@ -54,9 +54,9 @@ const search = ref('')
 
 watch(search, (value) => {
   productStore.$patch((state) => {
-    state.products = state.products.filter((product) =>
-      product.title.toLowerCase().includes(value.toLowerCase())
-    ).slice(0, 6)
+    state.products = state.products
+      .filter((product) => product.title.toLowerCase().includes(value.toLowerCase()))
+      .slice(0, 6)
   })
 
   if (value === '') {
@@ -68,9 +68,6 @@ onMounted(() => {
   fetchProducts()
 })
 
-onUnmounted(() => {
-  productStore.$reset()
-})
 </script>
 
 <style scoped></style>
