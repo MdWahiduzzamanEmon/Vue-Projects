@@ -13,6 +13,7 @@
       />
     </div>
   </section>
+  
   <!-- //loading  -->
   <section v-if="loading" class="text-center d-flex justify-content-center">
     <div class="spinner-grow text-primary" role="status">
@@ -30,6 +31,13 @@
         <ProductCard :product="product" />
       </div>
     </div>
+    <!-- //explore all products button -->
+    <section class="d-flex justify-content-center my-5" @click="router.push('/exploreAll')">
+      <button class="btn btn-outline-primary d-flex align-items-center gap-2">
+        Explore All Products
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </section>
   </section>
 </template>
 
@@ -38,10 +46,13 @@ import { useProductStore } from '../../../stores/ProductStore/ProductStore'
 import ProductCard from '@/components/ProductCard/ProductCard.vue'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref, watchEffect, watch } from 'vue'
+import { useRouter } from 'vue-router';
 
 const productStore = useProductStore()
 const { products, loading, error } = storeToRefs(productStore)
 const { fetchProducts } = productStore
+
+const router = useRouter()
 
 watchEffect(() => {
   productStore.$patch((state) => {

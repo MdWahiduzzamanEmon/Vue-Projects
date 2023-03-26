@@ -1,11 +1,12 @@
 <template>
   <section>
-    <div class="card h-100 p-2">
+    <div class="card p-2">
       <img
         :src="image"
         class="card-img-top img-fluid card_cursor"
         :alt="title"
         style="height: 200px; object-fit: contain"
+        lazy="loading"
         @click="showProductDetails(product)"
       />
       <div class="card-body">
@@ -25,6 +26,7 @@
           <p class="card-text">Category: {{ category }}</p>
           <p class="card-text">Price: {{ price }}</p>
         </div>
+
         <div class="d-flex justify-content-between">
           <p class="card-text d-flex align-items-center gap-2">
             Rating: {{ rating?.rate }}
@@ -56,6 +58,13 @@
             </svg>
           </button>
         </div>
+
+        <!-- //view product details button -->
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-outline-primary btn-sm mt-2" @click="showProductDetails(product)">
+            View Details
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -77,17 +86,17 @@ const props = defineProps({
 const { addProduct } = addProductStore
 
 const { title, image, description, category, price, rating } = toRefs(props.product)
-const router= useRouter()
+const router = useRouter()
 
 const showProductDetails = (product) => {
   router.push(`/productDetails/${product.id}`)
 }
-
 </script>
 
 <style scoped>
 .card {
   transition: all 0.3s ease-in-out;
+  height: 34.375rem;
 }
 .card:hover {
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.092);
@@ -111,6 +120,5 @@ p {
 }
 .card_cursor {
   cursor: pointer;
-
 }
 </style>

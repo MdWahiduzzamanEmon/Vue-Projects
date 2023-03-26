@@ -10,7 +10,7 @@ export const useProductStore = defineStore('product', () => {
 
   //state
   const products = ref([])
-  // const product = ref(null)
+  const categoryList = ref([])
   const loading = ref(false)
   const error = ref(null)
 
@@ -49,11 +49,46 @@ export const useProductStore = defineStore('product', () => {
     }
   }
 
+  //get category list
+  const fetchCategoryList = async () => {
+    try {
+      loading.value = true
+      const response = await axios.get(`${instance.baseURL}/products/categories`)
+      categoryList.value = response.data
+    } catch (er) {
+      error.value = er
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // filter by category
+
+  const filterByCategory =async (category) => {
+    if (category === 'All') return fetchProducts();
+
+    try {
+      loading.value = true
+      const response = await axios.get(`${instance.baseURL}/products/category/${category}`)
+      products.value = response.data
+      // console.log(response)
+    }
+    catch (er) {
+      error.value = er
+    }
+    finally {
+      loading.value = false
+    }
+  }
+
   return {
     products,
     loading,
     error,
     fetchProducts,
-    singleProduct
+    singleProduct,
+    fetchCategoryList,
+    categoryList,
+    filterByCategory
   }
 })
