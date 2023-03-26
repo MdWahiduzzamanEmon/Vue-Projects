@@ -1,6 +1,6 @@
 <template>
   <section class="d-flex justify-content-between align-items-center mb-4">
-    <h5>Total Products: {{ sliceProducts?.length }}</h5>
+    <h5>Total Products: {{ products?.length }}</h5>
     <!-- search  -->
     <div class="input-group w-50">
       <input
@@ -26,7 +26,7 @@
   <!-- //products  -->
   <section v-else>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col" v-for="product in sliceProducts" :key="product.id">
+      <div class="col" v-for="product in products" :key="product.id">
         <ProductCard :product="product" />
       </div>
     </div>
@@ -43,20 +43,25 @@ const productStore = useProductStore()
 const { products, loading, error } = storeToRefs(productStore)
 const { fetchProducts } = productStore
 
-//slice the products array to get the first 8 products
-const sliceProducts = ref([])
-
 watchEffect(() => {
-  sliceProducts.value = products.value.slice(0, 6)
+  productStore.$patch((state) => {
+    state.products = state.products.slice(0, 6)
+  })
 })
 
 //search
 const search = ref('')
 
 watch(search, (value) => {
-  sliceProducts.value = products.value
-    .filter((product) => product.title.toLowerCase().includes(value.toLowerCase()))
-    .slice(0, 6)
+  productStore.$patch((state) => {
+    state.products = state.products.filter((product) =>
+      product.title.toLowerCase().includes(value.toLowerCase())
+    ).slice(0, 6)
+  })
+
+  if (value === '') {
+    fetchProducts()
+  }
 })
 
 onMounted(() => {
