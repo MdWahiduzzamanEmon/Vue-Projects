@@ -1,13 +1,19 @@
 import axios from 'axios'
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { instance } from '../../Api/ApiConfig'
 import useAddProductStore from '../AddProductStore/AddProductStore'
+import { useAuthenticationStore } from '../AuthenticationStore/AuthenticationStore'
+import NotifyToast from '@/Utility/NotifyToast/NotifyToast.js'
 
 export const useProductStore = defineStore('product', () => {
   // call another store for single product
   const addProductStore = useAddProductStore()
-
+  const store = useAuthenticationStore()
+const router = useRouter()
+  const { isLoggedIn } = storeToRefs(store)
+  // console.log(router)
   //state
   const products = ref([])
   const categoryList = ref([])
@@ -32,6 +38,12 @@ export const useProductStore = defineStore('product', () => {
 
   // /single product
   const singleProduct = async (id) => {
+    if(!isLoggedIn.value){
+      NotifyToast('Please login first', 'error')
+      // add query to redirect to the current page
+      router.push({name: 'login', query: { redirect: router.currentRoute.value.fullPath }})
+      return
+    }
     try {
       loading.value = true
       const response = await axios.get(`${instance.baseURL}/products/${id}`)
@@ -51,6 +63,7 @@ export const useProductStore = defineStore('product', () => {
 
   //get category list
   const fetchCategoryList = async () => {
+    
     try {
       loading.value = true
       const response = await axios.get(`${instance.baseURL}/products/categories`)
@@ -89,6 +102,7 @@ export const useProductStore = defineStore('product', () => {
     singleProduct,
     fetchCategoryList,
     categoryList,
-    filterByCategory
+    filterByCategory,
+    isLoggedIn
   }
 })

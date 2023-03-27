@@ -1,12 +1,14 @@
 <template>
   <section>
     <div class="dropdown">
-      <div
-        class="dropdown-toggle position-relative"
+      <button
+        class="dropdown-toggle position-relative btn border-0"
         id="dropdownMenuClickableInside"
         data-bs-toggle="dropdown"
         data-bs-auto-close="false"
+        data-bs-display="static"
         aria-expanded="false"
+        :disabled="!isLoggedIn"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -27,11 +29,10 @@
           {{ addProductList.length }}
           <span class="visually-hidden">unread messages</span>
         </span>
-      </div>
+      </button>
       <ul
-        class="dropdown-menu dropdown-menu-lg-end p-4"
+        class="dropdown-menu dropdown-menu-end p-3 dropDown_Style"
         aria-labelledby="dropdownMenuClickableInside"
-        style="width: max-content"
       >
         <section v-if="addProductList.length > 0" class="list-group">
           <!-- send also index -->
@@ -56,6 +57,11 @@
 import useAddProductStore from '@/stores/AddProductStore/AddProductStore.js'
 import { storeToRefs } from 'pinia'
 import AddCardList from '@/components/AddCardList/AddCardList.vue'
+import { defineProps, toRefs } from 'vue'
+
+const props = defineProps(['isLoggedIn'])
+
+const { isLoggedIn } = toRefs(props)
 
 const addProductStore = useAddProductStore()
 
@@ -71,5 +77,13 @@ const clearCart = () => {
 <style scoped>
 .cursor-pointer {
   cursor: pointer;
+}
+.dropDown_Style {
+  width: 28.125rem;
+}
+@media (max-width: 767px) {
+  .dropDown_Style {
+    width: 18.5rem;
+  }
 }
 </style>

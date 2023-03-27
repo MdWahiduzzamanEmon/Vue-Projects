@@ -18,6 +18,11 @@ const router = createRouter({
       name: 'exploreAll',
       component: () => import('../views/ExploreAllProducts/ExploreAllProducts.vue')
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../AuthenTication/Login/LogIn.vue'),
+    },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: "" }
   ]
 })

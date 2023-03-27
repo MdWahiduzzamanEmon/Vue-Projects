@@ -1,8 +1,15 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
 import NotifyToast from '@/Utility/NotifyToast/NotifyToast.js'
+import { useAuthenticationStore } from '../AuthenticationStore/AuthenticationStore'
+import { useRouter } from 'vue-router'
 
 const useAddProductStore = defineStore('addProduct', () => {
+
+  const store = useAuthenticationStore()
+  const router = useRouter()
+    const { isLoggedIn } = storeToRefs(store)
+
   //state for add product
   const addProductList = ref([])
   const detailsSingleProduct = ref({})
@@ -16,6 +23,13 @@ const useAddProductStore = defineStore('addProduct', () => {
 
   //actions for add product
   const addProduct = (product) => {
+    if(!isLoggedIn.value){
+      NotifyToast('Please login first', 'error')
+      // add query to redirect to the current page
+      router.push({name: 'login', query: { redirect: router.currentRoute.value.fullPath }})
+      return
+    }
+
     //also add same product select quantity
     const index = addProductList.value.findIndex((item) => item.id === product.id)
     if (index !== -1) {

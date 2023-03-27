@@ -10,7 +10,7 @@
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-         Product Category
+          Product Category
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <a class="dropdown-item" href="#" @click="filterByCategory('All')">All</a>
@@ -75,11 +75,12 @@ import { storeToRefs } from 'pinia'
 import { onMounted, ref, watch } from 'vue'
 import { useProductStore } from '@/stores/ProductStore/ProductStore'
 import ProductCard from '@/components/ProductCard/ProductCard.vue'
+import NotifyToast from '@/Utility/NotifyToast/NotifyToast.js'
 
 const router = useRouter()
 
 const productStore = useProductStore()
-const { products, loading, error, categoryList } = storeToRefs(productStore)
+const { products, loading, error, categoryList, isLoggedIn } = storeToRefs(productStore)
 const { fetchProducts, fetchCategoryList, filterByCategory } = productStore
 
 //search
@@ -100,5 +101,12 @@ watch(search, (value) => {
 onMounted(() => {
   fetchProducts()
   fetchCategoryList()
+
+  if (!isLoggedIn.value) {
+    NotifyToast('Please login first', 'error')
+    // add query to redirect to the current page
+    router.push({ name: 'login', query: { redirect: router.currentRoute.value.fullPath } })
+    return
+  }
 })
 </script>

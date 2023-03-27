@@ -1,6 +1,7 @@
 <template>
   <section class="d-flex justify-content-between align-items-center mb-4">
-    <h5>Total Products: {{ products?.length }}</h5>
+    <!-- responsive-font-size -->
+    <h5 class="fs-5">Total Products: {{ products?.length }}</h5>
     <!-- search  -->
     <div class="input-group w-50">
       <input
@@ -13,7 +14,7 @@
       />
     </div>
   </section>
-  
+
   <!-- //loading  -->
   <section v-if="loading" class="text-center d-flex justify-content-center">
     <div class="spinner-grow text-primary" role="status">
@@ -31,8 +32,9 @@
         <ProductCard :product="product" />
       </div>
     </div>
+
     <!-- //explore all products button -->
-    <section class="d-flex justify-content-center my-5" @click="router.push('/exploreAll')">
+    <section class="d-flex justify-content-center my-5" @click="exploreAll">
       <button class="btn btn-outline-primary d-flex align-items-center gap-2">
         Explore All Products
         <i class="fas fa-arrow-right"></i>
@@ -46,7 +48,8 @@ import { useProductStore } from '../../../stores/ProductStore/ProductStore'
 import ProductCard from '@/components/ProductCard/ProductCard.vue'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref, watchEffect, watch } from 'vue'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
+// import NotifyToast from '@/Utility/NotifyToast/NotifyToast.js'
 
 const productStore = useProductStore()
 const { products, loading, error } = storeToRefs(productStore)
@@ -78,7 +81,11 @@ watch(search, (value) => {
 onMounted(() => {
   fetchProducts()
 })
+// console.log(router.currentRoute.value.fullPath)
 
+const exploreAll = () => {
+  router.push('/exploreAll')
+}
 </script>
 
 <style scoped></style>
